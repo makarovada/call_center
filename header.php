@@ -28,10 +28,13 @@
               <a class="nav-link" href="authorization.php">Авторизация</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="cluster.php">Кластеры</a>
+              <a class="nav-link" href="registration.php">Регистрация</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="cluster.php">Шумы</a>
+              <a class="nav-link" href="cluster.php?type=cluster">Кластеры</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="cluster.php?type=noise">Шумы</a>
             </li>
             
           </ul>

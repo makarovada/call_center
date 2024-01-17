@@ -1,13 +1,15 @@
 <?php
 require('header.php');
+require('db.php');
 ?>
 <br>
 <h4 class="mb-3">Данные о кластере</h4>
 <div class="form-group">
 <!-- для кластеров -->
+<?php if ($_GET["type"]=='cluster'):?>
 <div class="row g-3">
 
-    <label for="exampleSelect1" class="form-label mt-1">Кластер</label>
+    <label for="exampleSelect1" class="form-label mt-4">Кластер</label>
     <div class="col-sm-4">
         <select class="form-select" id="exampleSelect1">
             <option>1</option>
@@ -24,7 +26,7 @@ require('header.php');
         </div>
     </div>
 </div>
-</div>
+<?php endif;?>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -47,10 +49,13 @@ require('header.php');
       <td>Column content</td>
       <td>Column content</td>
       <td>Column contentColumn contentColumn contentColumn contentColumn contentColumn contentColumn contentColumn contentColumn content</td>
+      <td>Column contentColumn contentColumn contentColumn contentColumn contentColumn contentColumn contentColumn contentColumn content</td>
     </tr>
   </tbody>
 </table>
 <!-- для аномалий -->
+<?php if ($_GET["type"]=='noise'):?>
+
 <form>
     <div class="form-group">
       <label for="exampleTextarea" class="form-label mt-4">Комментарии к аномалии</label>
@@ -58,6 +63,8 @@ require('header.php');
     </div>
     <button type="submit" class="btn btn-primary">Отправить</button>
 <form>
+<?php endif;?>
+
 <?php
 require('footer.php');
 

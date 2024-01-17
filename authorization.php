@@ -1,5 +1,6 @@
 <?php
 require('header.php');
+require('db.php');
 ?>
 <main class="form-signin w-50 m-auto">
 <form>

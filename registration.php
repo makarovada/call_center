@@ -1,5 +1,6 @@
 <?php
 require('header.php');
+require('db.php');
 ?>
 <br>
 <div class="col-md-7 col-lg-8 m-auto">
