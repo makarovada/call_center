@@ -16,7 +16,7 @@ if (!empty($_POST)) {
       $stmt = $connect->prepare($query);
       $stmt->bind_param('sss', $_POST['login'], $hashedPassword, $_POST['name']);
       $stmt->execute();
-      header("Location: authorization.php");
+      header("Location: dataset.php");
       exit;
   } 
   elseif ($_POST['password']!=$_POST['password_repeat']) {
