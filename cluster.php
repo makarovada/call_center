@@ -53,30 +53,7 @@ $id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
 <!-- для аномалий -->
 <?php if ($type_cluster=='noise'):?>
   <h4 class="mb-3">Аномалии</h4>
-
-<div class="btn-group">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle='dropdown'><?php echo $id_dropdown;?> <span class='caret'></span></button>
-    <ul class='dropdown-menu'>
-      <?php
-        $typeQuery = "SELECT DISTINCT id_appeal FROM appeals WHERE label=0 ORDER BY id_appeal";
-        $result = $connect->query($typeQuery);
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<li><a class='dropdown-item' href='?id=" .$row['id_appeal']. "&type=noise'>" . $row['id_appeal'] . "</a></li>";
-            }
-        }
-        ?>
-    </ul>
-  </div>
-<form method="POST" action="comment_anomalies.php?id=<?php echo $_GET["id"]; ?>">
-    <div class="form-group">
-      <label for="exampleTextarea" class="form-label mt-4">Комментарий к аномалии <?php echo $_GET["id"]; ?></label>
-      <textarea name="com_anomal" class="form-control" id="exampleTextarea" rows="3"></textarea>
-    </div><br>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-</form>
-<br>
+  <br>
 <?php endif;?>
 
 
@@ -111,7 +88,12 @@ $id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
 
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
+                if($type_cluster == 'cluster'){
+                    echo "<tr>";
+                }
+                else{
+                    echo "<tr onclick=\"document.location='anomalie.php".$row["id_appeal"]."'\">";
+                }
                 echo "<th scope='row'>".$row["id_appeal"]."</th>";
                 echo "<td>".$row["dateTime"]."</td>";
                 echo "<td>".$row["voiceMenu"]."</td>";
