@@ -1,4 +1,5 @@
 <?php
+$page='dataset';
 require('header.php');
 require('db.php');
 ?>

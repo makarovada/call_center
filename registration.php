@@ -1,4 +1,5 @@
 <?php
+$page='signup';
 require('header.php');
 require('db.php');
 

@@ -1,4 +1,4 @@
 <?php
-require('header.php');
-require('footer.php');
+header("Location: authorization.php");
+exit;
 ?>

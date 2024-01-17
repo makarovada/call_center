@@ -1,3 +1,6 @@
+<?php
+require("session.php");
+?>
 <!doctype html>
 <html>
   <head>
@@ -10,33 +13,27 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Служба поддержки Правительства Москвы</a>
+        <a class="navbar-brand" href="dataset.php">Служба поддержки Правительства Москвы</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+        
         <div class="collapse navbar-collapse" id="navbarColor01">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Описание</a>
+              <a class='<?php if($page=='dataset'){ echo "nav-link active";} else{ echo "nav-link";}?>' href="dataset.php">Датасет</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="dataset.php">Датасет</a>
+              <a class='<?php if($page=='cluster'){ echo "nav-link active";} else{ echo "nav-link";}?>' href="cluster.php?type=cluster">Кластеры</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Статистика</a>
+              <a class='<?php if($page=='noise'){ echo "nav-link active";} else{ echo "nav-link";}?>' href="cluster.php?type=noise">Шумы</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="authorization.php">Авторизация</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="registration.php">Регистрация</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="cluster.php?type=cluster">Кластеры</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="cluster.php?type=noise">Шумы</a>
-            </li>
+            <?php if($_SESSION['role']==1):?>
+              <li class="nav-item">
+                <a class='<?php if($page=='signup'){ echo "nav-link active";} else{ echo "nav-link";}?>' href="registration.php">Регистрация</a>
+              </li>
+            <?php endif;?>
             
           </ul>
         </div>

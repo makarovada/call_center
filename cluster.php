@@ -1,11 +1,13 @@
 <?php
-require('header.php');
-require('db.php');
 $label = isset($_GET['label']) ? $_GET['label'] : 0;
 $type_cluster = $_GET['type'];
 $label_dropdown = isset($_GET['label']) && $_GET['label']<>0 ? $_GET['label'] : 'Номер кластера';
 $id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
 
+$page=$type_cluster;
+
+require('header.php');
+require('db.php');
 ?>
 <style>
   .dropdown-menu {
@@ -92,7 +94,7 @@ $id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
                     echo "<tr>";
                 }
                 else{
-                    echo "<tr onclick=\"document.location='anomalie.php".$row["id_appeal"]."'\">";
+                    echo "<tr onclick=\"document.location='anomalie.php?id=".$row["id_appeal"]."'\">";
                 }
                 echo "<th scope='row'>".$row["id_appeal"]."</th>";
                 echo "<td>".$row["dateTime"]."</td>";
