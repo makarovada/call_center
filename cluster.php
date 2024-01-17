@@ -1,17 +1,29 @@
 <?php
 require('header.php');
 require('db.php');
+$label = isset($_GET['label']) ? $_GET['label'] : 0;
+$type_cluster = $_GET['type'];
+$label_dropdown = isset($_GET['label']) && $_GET['label']<>0 ? $_GET['label'] : 'Номер кластера';
+$id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
+
 ?>
+<style>
+  .dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+</style>
+
 <br>
-<h4 class="mb-3">Данные о кластере</h4>
-<div class="form-group">
 <!-- для кластеров -->
-<?php if ($_GET["type"]=='cluster'):?>
+<?php if ($type_cluster=='cluster'):?>
+<h4 class="mb-3">Данные о кластере <?php if($label<>0){echo $label;}?></h4>
+<div class="form-group">
 <div class="row g-3">
 
     <div class="col-sm-4">
-    <div class="btn-group">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle='dropdown'>Номер кластера<span class='caret'></span></button>
+      <div class="btn-group">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle='dropdown'><?php echo $label_dropdown;?> <span class='caret'></span></button>
         <ul class='dropdown-menu'>
             <?php
             $typeQuery = "SELECT DISTINCT label FROM appeals WHERE label<>0 ORDER BY label";
@@ -22,21 +34,53 @@ require('db.php');
                     echo "<li><a class='dropdown-item' href='?label=" .$row['label']. "&type=cluster'>" . $row['label'] . "</a></li>";
                 }
             }
-            $label = isset($_GET['label']) ? $_GET['label'] : 0;
-
             
             ?>
         </ul></div></div>
-    <div class="col-sm-8">
-        <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Название кластера" aria-label="Название кластера" aria-describedby="button-addon2">
-        <button class="btn btn-primary" type="button" id="button-addon2">Изменить</button>
-        </div>
-    </div>
+        <div class="col-sm-8">
+          <form method="POST" action="name_cluster.php?type=cluster&label=<?php echo $label; ?>">
+            <div class="input-group mb-3">
+              <input type="text" name="name_cl" class="form-control" placeholder="Название кластера">
+              <button class="btn btn-primary" type="submit">Изменить</button>
+            </div>
+          </form>
+        </div>   
+      </div>
 </div>
-</div>
-
 <?php endif;?>
+
+
+<!-- для аномалий -->
+<?php if ($type_cluster=='noise'):?>
+  <h4 class="mb-3">Аномалии</h4>
+
+<div class="btn-group">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle='dropdown'><?php echo $id_dropdown;?> <span class='caret'></span></button>
+    <ul class='dropdown-menu'>
+      <?php
+        $typeQuery = "SELECT DISTINCT id_appeal FROM appeals WHERE label=0 ORDER BY id_appeal";
+        $result = $connect->query($typeQuery);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<li><a class='dropdown-item' href='?id=" .$row['id_appeal']. "&type=noise'>" . $row['id_appeal'] . "</a></li>";
+            }
+        }
+        ?>
+    </ul>
+  </div>
+<form method="POST" action="comment_anomalies.php?id=<?php echo $_GET["id"]; ?>">
+    <div class="form-group">
+      <label for="exampleTextarea" class="form-label mt-4">Комментарий к аномалии <?php echo $_GET["id"]; ?></label>
+      <textarea name="com_anomal" class="form-control" id="exampleTextarea" rows="3"></textarea>
+    </div><br>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+<br>
+<?php endif;?>
+
+
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -52,8 +96,13 @@ require('db.php');
   </thead>
   <tbody>
     <?php
-    if ($label <> 0) {
-        $query = "SELECT * FROM (SELECT * FROM appeals WHERE label=?) AS a JOIN dictionary ON appeal_num=id ORDER BY postProcessingTime, appeal_num";
+    if ($type_cluster == 'noise' || $label<>0) {
+        if($label<>0){
+          $query = "SELECT * FROM (SELECT * FROM appeals WHERE label=?) AS a JOIN dictionary ON appeal_num=id ORDER BY rand() LIMIT 50";
+        }
+        else{
+          $query = "SELECT * FROM (SELECT * FROM appeals WHERE label=?) AS a JOIN dictionary ON appeal_num=id ORDER BY id_appeal";
+        }
     
         $stmt = $connect->prepare($query);
         $stmt->bind_param('i', $label);
@@ -78,17 +127,7 @@ require('db.php');
     ?>
   </tbody>
 </table>
-<!-- для аномалий -->
-<?php if ($_GET["type"]=='noise'):?>
 
-<form>
-    <div class="form-group">
-      <label for="exampleTextarea" class="form-label mt-4">Комментарии к аномалии</label>
-      <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
-<form>
-<?php endif;?>
 
 <?php
 require('footer.php');
