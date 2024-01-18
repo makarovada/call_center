@@ -32,7 +32,7 @@ require("db.php");
             </li>
             <?php if($_SESSION['role']==1):?>
               <li class="nav-item">
-                <a class='<?php if($page=='signup'){ echo "nav-link active";} else{ echo "nav-link";}?>' href="registration.php">Регистрация</a>
+                <a class='<?php if($page=='signup'){ echo "nav-link active";} else{ echo "nav-link";}?>' href="update_user.php?id=2">Регистрация</a>
               </li>
             <?php endif;?>
             
