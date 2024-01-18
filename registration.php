@@ -1,5 +1,5 @@
 <?php
-$page='signup';
+$page='users';
 require('header.php');
 
 

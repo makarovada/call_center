@@ -1,6 +1,6 @@
 <?php
-require("session.php");
 require("db.php");
+require("session.php");
 ?>
 <!doctype html>
 <html>

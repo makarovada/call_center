@@ -1,5 +1,7 @@
 <?php
 require('db.php');
+session_start();
+$_SESSION = array();
 ?>
 <!doctype html>
 <html>
@@ -33,7 +35,6 @@ if (!empty($_POST)) {
   if (mysqli_num_rows($result) > 0) {
       $user = mysqli_fetch_assoc($result);
       if (password_verify($_POST['password'], $user['password'])) {
-          session_start();
           $_SESSION["user"] = $user['id'];
           $_SESSION["role"] = $user['role'];
           header("Location: dataset.php");
