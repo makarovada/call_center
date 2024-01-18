@@ -1,7 +1,6 @@
 <?php
 $page='noise';
 require('header.php');
-require('db.php');
 ?>
 <br><button type="button" class="btn btn-primary" onclick="document.location='cluster.php?type=noise'">Назад</button><br>
 
@@ -28,8 +27,28 @@ if ($result && $result->num_rows > 0) {
     }
 }
 ?>
+<br><h4 class='mb-3'>Исследование аномалии</h4>
+<?php
+  $query = "SELECT * FROM anomalies JOIN users ON anomalies.id_user=users.id WHERE id_appeal=?";
 
-<form method="POST" action="comment_anomalies.php?id=<?php echo $_GET["id"]; ?>">
+  $stmt = $connect->prepare($query);
+  $stmt->bind_param('i', $_GET["id"]);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  
+  if ($result && $result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        echo "<table><tbody>";
+        echo "<tr'><th scope='col' style='width: 150px;'>Сотрудник </th><td>".$row["name"]."</td></tr>";
+        echo "<tr><th scope='col'>Комментарий </th><td>".$row["comment"]."</td></tr>";
+        echo "<tr><th scope='col'>_</th><td> </td></tr>";
+        echo "</tbody></table>";
+      }
+  }
+  else{ echo "<p>Комментариев не обнаружено.</p>";}
+?>
+
+<form method="POST" action="comment_anomal.php?id=<?php echo $_GET["id"]; ?>">
     <div class="form-group">
       <label for="exampleTextarea" class="form-label mt-4">Описание аномалии <?php echo $_GET["id"]; ?></label>
       <textarea name="com_anomal" class="form-control" id="exampleTextarea" rows="3"></textarea>

@@ -34,7 +34,7 @@ if (!empty($_POST)) {
       $user = mysqli_fetch_assoc($result);
       if (password_verify($_POST['password'], $user['password'])) {
           session_start();
-          $_SESSION["user_id"] = $user['user_id'];
+          $_SESSION["user"] = $user['id'];
           $_SESSION["role"] = $user['role'];
           header("Location: dataset.php");
           exit;

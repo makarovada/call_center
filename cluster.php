@@ -7,7 +7,19 @@ $id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
 $page=$type_cluster;
 
 require('header.php');
-require('db.php');
+
+$query = "SELECT name FROM clusters WHERE id=?";
+        
+$stmt = $connect->prepare($query);
+$stmt->bind_param('i', $label);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()){
+    $name = $row['name'];
+
+  }
+}
 ?>
 <style>
   .dropdown-menu {
@@ -19,7 +31,7 @@ require('db.php');
 <br>
 <!-- для кластеров -->
 <?php if ($type_cluster=='cluster'):?>
-<h4 class="mb-3">Данные о кластере <?php if($label<>0){echo $label;}?></h4>
+<h4 class="mb-3">Данные о кластере <?php if($label<>0){echo $name;}?></h4>
 <div class="form-group">
 <div class="row g-3">
 

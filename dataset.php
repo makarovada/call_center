@@ -1,7 +1,6 @@
 <?php
 $page='dataset';
 require('header.php');
-require('db.php');
 ?>
 <br>
 <h4 class="mb-3">Данные о звонках</h4>
