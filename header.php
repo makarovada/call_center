@@ -39,4 +39,5 @@ require("session.php");
         </div>
       </div>
     </nav>
+    <?php require("check_auth.php");?>
     <div class="container">
