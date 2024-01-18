@@ -11,7 +11,7 @@ if (!empty($_POST)) {
       $stmt = $connect->prepare($query);
       $stmt->bind_param('sss', $hashedPassword, $_POST['name'], $_GET['id']);
       $stmt->execute();
-      header("Location: dataset.php");
+      header("Location: users.php");
       exit;
   } 
   else {
@@ -37,6 +37,7 @@ if ($result && $result->num_rows > 0) {
 ?>
 <br>
 <div class="col-md-7 col-lg-8 m-auto">
+<br><button type="button" class="btn btn-primary" onclick="document.location='users.php'">Назад</button><br><br>
 <h4 class="mb-3">Изменение данных сотрудника</h4>
 <br>
 <form class="needs-validation" method="POST">
@@ -65,7 +66,7 @@ if ($result && $result->num_rows > 0) {
   </div>
   <br>
 
-  <button class="btn btn-primary w-100 py-2" type="submit">Зарегистрировать сотрудника</button>
+  <button class="btn btn-primary w-100 py-2" type="submit">Изменить</button>
 </form>
 </div>
 <?php

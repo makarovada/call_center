@@ -16,7 +16,7 @@ if (!empty($_POST)) {
       $stmt = $connect->prepare($query);
       $stmt->bind_param('sss', $_POST['login'], $hashedPassword, $_POST['name']);
       $stmt->execute();
-      header("Location: dataset.php");
+      header("Location: users.php");
       exit;
   } 
   elseif ($_POST['password']!=$_POST['password_repeat']) {
@@ -33,8 +33,9 @@ if (!empty($_POST)) {
   }
 }
 ?>
-<br>
+
 <div class="col-md-7 col-lg-8 m-auto">
+<br><button type="button" class="btn btn-primary" onclick="document.location='users.php'">Назад</button><br><br>
 <h4 class="mb-3">Регистрация сотрудника</h4>
 <br>
 <form class="needs-validation" method="POST">
