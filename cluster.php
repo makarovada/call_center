@@ -3,12 +3,12 @@ $label = isset($_GET['label']) ? $_GET['label'] : 0;
 $type_cluster = $_GET['type'];
 $label_dropdown = isset($_GET['label']) && $_GET['label']<>0 ? $_GET['label'] : 'Номер кластера';
 $id_dropdown = isset($_GET['id']) ? $_GET['id'] : 'id аномалии';
-
+$name = '';
 $page=$type_cluster;
 
 require('header.php');
 
-$query = "SELECT name FROM clusters WHERE id=?";
+$query = "SELECT * FROM clusters WHERE id=?";
         
 $stmt = $connect->prepare($query);
 $stmt->bind_param('i', $label);
@@ -16,8 +16,9 @@ $stmt->execute();
 $result = $stmt->get_result();
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()){
-    $name = $row['name'];
-
+    if($row['id']!=0){
+      $name = $row['name'];
+    }
   }
 }
 ?>
@@ -31,7 +32,7 @@ if ($result && $result->num_rows > 0) {
 <br>
 <!-- для кластеров -->
 <?php if ($type_cluster=='cluster'):?>
-<h4 class="mb-3">Данные о кластере <?php if($label<>0){echo $name;}?></h4>
+<h4 class="mb-3">Данные о кластере <?php echo $name;?></h4>
 <div class="form-group">
 <div class="row g-3">
 
@@ -52,7 +53,7 @@ if ($result && $result->num_rows > 0) {
             ?>
         </ul></div></div>
         <div class="col-sm-8">
-          <form method="POST" action="name_cluster.php?type=cluster&label=<?php echo $label; ?>">
+          <form method="POST" action="name_cluster.php?label=<?php echo $label; ?>">
             <div class="input-group mb-3">
               <input type="text" name="name_cl" class="form-control" placeholder="Название кластера">
               <button class="btn btn-primary" type="submit">Изменить</button>
